@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeSpoon - Online Restaurant Menu & Ordering</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #ff4444;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --bg-dark: #1a1a1a;
+            --bg-light: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/1.%20Blurred%20Restaurant%20Interior.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
+        }
+
+        .btn-custom {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .btn-custom:hover {
+            background: #e03333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 68, 68, 0.4);
+            color: white;
+        }
+
+        .btn-outline-custom {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .btn-outline-custom:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Menu Section */
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .menu-tab {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 25px;
+            margin: 5px 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .menu-tab.active,
+        .menu-tab:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .menu-item-content {
+            padding: 20px;
+        }
+
+        .menu-item h5 {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .menu-item-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .add-to-order-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .add-to-order-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Special Offers */
+        .special-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        /* Order Form */
+        .order-section {
+            background: var(--bg-light);
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(255, 68, 68, 0.25);
+        }
+
+        .order-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Reviews */
+        .review-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .review-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            object-fit: cover;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        /* Contact */
+        .contact-info {
+            background: var(--primary-color);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .contact-item {
+            margin-bottom: 20px;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-right: 10px;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            color: white;
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+
+        .social-icons {
+            margin: 20px 0;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .btn-custom,
+            .btn-outline-custom {
+                display: block;
+                margin: 10px 0;
+                width: 200px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Cart Counter */
+        .cart-counter {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: var(--secondary-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .cart-counter:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .cart-counter.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-utensils"></i> LuxeSpoon
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#menu">MENU</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#specials">SPECIALS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#reviews">REVIEWS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">CONTACT</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Counter -->
+    <div class="cart-counter hidden" id="cartCounter" onclick="scrollToOrder()">
+        <span id="cartCount">0</span>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">ONLINE<br>RESTAURANT</h1>
+            <p class="hero-subtitle">VEGETARIAN FOODCOURT</p>
+            <div class="hero-buttons">
+                <a href="#menu" class="btn-custom">VIEW MENU</a>
+                <a href="#order" class="btn-outline-custom">ORDER NOW</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="section">
+        <div class="container">
+            <h2 class="section-title">OUR MENU</h2>
+            <p class="section-subtitle">Discover our delicious vegetarian dishes, crafted with love and the finest ingredients</p>
+            
+            <!-- Menu Tabs -->
+            <div class="menu-tabs">
+                <button class="menu-tab active" onclick="showCategory('starters')">STARTERS</button>
+                <button class="menu-tab" onclick="showCategory('mains')">MAIN COURSE</button>
+                <button class="menu-tab" onclick="showCategory('desserts')">DESSERTS</button>
+                <button class="menu-tab" onclick="showCategory('beverages')">BEVERAGES</button>
+            </div>
+
+            <!-- Starters -->
+            <div id="starters" class="menu-category">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Mediterranean%20Bruschetta.jpg" alt="Bruschetta">
+                            <div class="menu-item-content">
+                                <h5>Mediterranean Bruschetta</h5>
+                                <p>Fresh tomatoes, basil, garlic and mozzarella on toasted bread</p>
+                                <div class="menu-item-price">₹240.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Mediterranean Bruschetta', 240)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Crispy%20Spring%20Rolls.jpg" alt="Spring Rolls">
+                            <div class="menu-item-content">
+                                <h5>Crispy Spring Rolls</h5>
+                                <p>Fresh vegetables wrapped in crispy pastry, served with sweet chili sauce</p>
+                                <div class="menu-item-price">₹180.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Crispy Spring Rolls', 180)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Herb%20Stuffed%20Mushrooms.jpg" alt="Stuffed Mushrooms">
+                            <div class="menu-item-content">
+                                <h5>Herb Stuffed Mushrooms</h5>
+                                <p>Button mushrooms stuffed with herbs, cheese and breadcrumbs</p>
+                                <div class="menu-item-price">₹220.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Herb Stuffed Mushrooms', 220)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Course -->
+            <div id="mains" class="menu-category" style="display: none;">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Creamy%20Mushroom%20Pasta.jpg" alt="Pasta">
+                            <div class="menu-item-content">
+                                <h5>Creamy Mushroom Pasta</h5>
+                                <p>Fresh pasta in rich mushroom cream sauce with herbs</p>
+                                <div class="menu-item-price">₹380.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Creamy Mushroom Pasta', 380)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Vegetable%20Risotto.jpg" alt="Risotto">
+                            <div class="menu-item-content">
+                                <h5>Vegetable Risotto</h5>
+                                <p>Creamy arborio rice with seasonal vegetables and parmesan</p>
+                                <div class="menu-item-price">₹420.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Vegetable Risotto', 420)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Margherita%20Pizza.jpg" alt="Pizza">
+                            <div class="menu-item-content">
+                                <h5>Margherita Pizza</h5>
+                                <p>Wood-fired pizza with fresh mozzarella, tomatoes and basil</p>
+                                <div class="menu-item-price">₹350.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Margherita Pizza', 350)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desserts -->
+            <div id="desserts" class="menu-category" style="display: none;">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Classic%20Tiramisu.jpg" alt="Tiramisu">
+                            <div class="menu-item-content">
+                                <h5>Classic Tiramisu</h5>
+                                <p>Traditional Italian dessert with coffee-soaked ladyfingers and mascarpone</p>
+                                <div class="menu-item-price">₹180.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Classic Tiramisu', 180)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Berry%20Cheesecake.jpg" alt="Cheesecake">
+                            <div class="menu-item-content">
+                                <h5>Berry Cheesecake</h5>
+                                <p>Creamy cheesecake topped with fresh mixed berries</p>
+                                <div class="menu-item-price">₹160.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Berry Cheesecake', 160)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Chocolate%20Lava%20Cake.jpg" alt="Chocolate Cake">
+                            <div class="menu-item-content">
+                                <h5>Chocolate Lava Cake</h5>
+                                <p>Warm chocolate cake with molten center, served with vanilla ice cream</p>
+                                <div class="menu-item-price">₹200.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Chocolate Lava Cake', 200)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beverages -->
+            <div id="beverages" class="menu-category" style="display: none;">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Fresh%20Orange%20Juice.jpg" alt="Fresh Juice">
+                            <div class="menu-item-content">
+                                <h5>Fresh Orange Juice</h5>
+                                <p>Freshly squeezed orange juice with no added sugar</p>
+                                <div class="menu-item-price">₹80.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Fresh Orange Juice', 80)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Berry%20Smoothie.jpg" alt="Smoothie">
+                            <div class="menu-item-content">
+                                <h5>Berry Smoothie</h5>
+                                <p>Blended mixed berries with yogurt and honey</p>
+                                <div class="menu-item-price">₹120.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Berry Smoothie', 120)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="menu-item">
+                            <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Iced%20Green%20Tea.jpg" alt="Iced Tea">
+                            <div class="menu-item-content">
+                                <h5>Iced Green Tea</h5>
+                                <p>Refreshing green tea with lemon and mint</p>
+                                <div class="menu-item-price">₹60.00</div>
+                                <button class="add-to-order-btn" onclick="addToOrder('Iced Green Tea', 60)">Add to Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers -->
+    <section id="specials" class="section" style="background: var(--bg-light);">
+        <div class="container">
+            <h2 class="section-title">CHEF'S SPECIALS</h2>
+            <p class="section-subtitle">Our chef's handpicked recommendations for an extraordinary dining experience</p>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="menu-item" style="position: relative;">
+                        <div class="special-badge">CHEF'S CHOICE</div>
+                        <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Truffle%20Mushroom%20Risotto.jpg" alt="Special Dish">
+                        <div class="menu-item-content">
+                            <h5>Truffle Mushroom Risotto</h5>
+                            <p>Premium risotto with truffle oil and wild mushrooms</p>
+                            <div class="menu-item-price">₹580.00</div>
+                            <button class="add-to-order-btn" onclick="addToOrder('Truffle Mushroom Risotto', 580)">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="menu-item" style="position: relative;">
+                        <div class="special-badge">POPULAR</div>
+                        <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Gourmet%20Veggie%20Pizza.jpg" alt="Popular Dish">
+                        <div class="menu-item-content">
+                            <h5>Gourmet Veggie Pizza</h5>
+                            <p>Artisanal pizza with roasted vegetables and goat cheese</p>
+                            <div class="menu-item-price">₹450.00</div>
+                            <button class="add-to-order-btn" onclick="addToOrder('Gourmet Veggie Pizza', 450)">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="menu-item" style="position: relative;">
+                        <div class="special-badge">LIMITED TIME</div>
+                        <img src="https://raw.githubusercontent.com/SAIKAKARA/Imeges/refs/heads/main/Seasonal%20Harvest%20Bowl.jpg" alt="Limited Dish">
+                        <div class="menu-item-content">
+                            <h5>Seasonal Harvest Bowl</h5>
+                            <p>Fresh seasonal vegetables with quinoa and tahini dressing</p>
+                            <div class="menu-item-price">₹320.00</div>
+                            <button class="add-to-order-btn" onclick="addToOrder('Seasonal Harvest Bowl', 320)">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+                <div class="col-lg-4">
+                    <div class="order-summary">
+                        <h4>Order Summary</h4>
+                        <div id="orderItems">
+                            <p class="text-muted">No items selected yet. Browse our menu to add items to your order.</p>
+                        </div>
+                        <div class="order-item">
+                            <span>Total: </span>
+                            <span id="orderTotal">₹0.00</span>
+                        </div>
+                        <button 
+  type="button" 
+  class="btn-custom w-100 mt-3" 
+  onclick="window.open('https://wa.me/917671973148','_blank');">
+  <i class="fab fa-whatsapp"></i> Order via WhatsApp
+</button>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="section">
+        <div class="container">
+            <h2 class="section-title">WHAT OUR CUSTOMERS SAY</h2>
+            <p class="section-subtitle">Real reviews from our satisfied customers</p>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="review-card">
+                        <img src="https://picsum.photos/80/80?random=60" alt="Sarah" class="review-avatar">
+                        <div class="stars">★★★★★</div>
+                        <p>"Absolutely amazing food! The truffle risotto was to die for. Fast delivery and excellent service. Will definitely order again!"</p>
+                        <h6>Sarah Johnson</h6>
+                        <small class="text-muted">Regular Customer</small>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="review-card">
+                        <img src="https://picsum.photos/80/80?random=61" alt="Mike" class="review-avatar">
+                        <div class="stars">★★★★★</div>
+                        <p>"Best vegetarian restaurant in the city! Fresh ingredients, creative dishes, and the online ordering system is so convenient."</p>
+                        <h6>Mike Chen</h6>
+                        <small class="text-muted">Food Blogger</small>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="review-card">
+                        <img src="https://picsum.photos/80/80?random=62" alt="Emma" class="review-avatar">
+                        <div class="stars">★★★★★</div>
+                        <p>"LuxeSpoon has become our go-to for family dinners. The kids love the pizza and we adults enjoy the sophisticated flavors."</p>
+                        <h6>Emma Rodriguez</h6>
+                        <small class="text-muted">Family Customer</small>
+                    </div>
+                </div>
+                        <div 
+                        <small class="text-muted">Food Blogger</small>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="review-card">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Emma" class="review-avatar">
+                        <div class="stars">★★★★★</div>
+                        <p>"LuxeSpoon has become our go-to for family dinners. The kids love the pizza and we adults enjoy the sophisticated flavors."</p>
+                        <h6>Emma Rodriguez</h6>
+                        <small class="text-muted">Family Customer</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Location -->
+    <section id="contact" class="section" style="background: var(--bg-light);">
+        <div class="container">
+            <h2 class="section-title">CONTACT US</h2>
+            <p class="section-subtitle">Get in touch with us for reservations, catering, or any questions</p>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="contact-info">
+                        <h4>Get In Touch</h4>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Garden Street, Vijayawada, Andhra Pradesh, 520001</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 xxxxx xxxxx</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>hello@luxespoon.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Opening Hours:</strong><br>
+                                Mon - Sun: 11:00 AM - 11:00 PM<br>
+                                Kitchen closes at 10:30 PM
+                            </div>
+                        </div>
+                        <a href="https://wa.me/917671973148" class="whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3825.6571679346524!2d80.64845931425952!3d16.515151034298736!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35fb4c1c7c4159%3A0x6f5c4f5c4f5c4f5c!2sVijayawada%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1635123456789!5m2!1sen!2sin" 
+                        width="100%" 
+                        height="400" 
+                        style="border:0; border-radius: 15px;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5><i class="fas fa-utensils"></i> LuxeSpoon</h5>
+                    <p>Delicious vegetarian cuisine delivered fresh to your doorstep. Experience the finest flavors with our online ordering system.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#menu" class="text-light">Menu</a></li>
+                        <li><a href="#specials" class="text-light">Specials</a></li>
+                        <li><a href="#reviews" class="text-light">Reviews</a></li>
+                        <li><a href="#contact" class="text-light">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6>Follow Us</h6>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: #333;">
+            <div class="text-center">
+                <p>&copy; 2025 LuxeSpoon Restaurant. All rights reserved. | Designed with ❤️ for food lovers</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Order management
+        let orderItems = [];
+        let orderTotal = 0;
+
+        // Menu category switching
+        function showCategory(category) {
+            // Hide all categories
+            document.querySelectorAll('.menu-category').forEach(cat => {
+                cat.style.display = 'none';
+            });
+            
+            // Show selected category
+            document.getElementById(category).style.display = 'block';
+            
+            // Update active tab
+            document.querySelectorAll('.menu-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Add item to order
+        function addToOrder(itemName, itemPrice) {
+            const existingItem = orderItems.find(item => item.name === itemName);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                orderItems.push({
+                    name: itemName,
+                    price: itemPrice,
+                    quantity: 1
+                });
+            }
+            
+            updateOrderSummary();
+            updateCartCounter();
+            
+            // Show success feedback
+            event.target.innerHTML = 'Added!';
+            event.target.style.background = '#28a745';
+            setTimeout(() => {
+                event.target.innerHTML = 'Add to Order';
+                event.target.style.background = '';
+            }, 1000);
+        }
+
+        // Remove item from order
+        function removeFromOrder(itemName) {
+            const itemIndex = orderItems.findIndex(item => item.name === itemName);
+            if (itemIndex > -1) {
+                if (orderItems[itemIndex].quantity > 1) {
+                    orderItems[itemIndex].quantity -= 1;
+                } else {
+                    orderItems.splice(itemIndex, 1);
+                }
+            }
+            updateOrderSummary();
+            updateCartCounter();
+        }
+
+        // Update order summary
+        function updateOrderSummary() {
+            const orderItemsDiv = document.getElementById('orderItems');
+            const orderTotalSpan = document.getElementById('orderTotal');
+            const submitBtn = document.getElementById('submitOrderBtn');
+            
+            if (orderItems.length === 0) {
+                orderItemsDiv.innerHTML = '<p class="text-muted">No items selected yet. Browse our menu to add items to your order.</p>';
+                orderTotal = 0;
+                submitBtn.disabled = true;
+            } else {
+                let itemsHTML = '';
+                orderTotal = 0;
+                
+                orderItems.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    orderTotal += itemTotal;
+                    
+                    itemsHTML += `
+                        <div class="order-item">
+                            <div>
+                                <strong>${item.name}</strong><br>
+                                <small>₹${item.price} × ${item.quantity}</small>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-outline-danger" onclick="removeFromOrder('${item.name}')">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="mx-2">₹${itemTotal.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                orderItemsDiv.innerHTML = itemsHTML;
+                submitBtn.disabled = false;
+            }
+            
+            orderTotalSpan.textContent = `₹${orderTotal.toFixed(2)}`;
+        }
+
+        // Update cart counter
+        function updateCartCounter() {
+            const cartCounter = document.getElementById('cartCounter');
+            const cartCount = document.getElementById('cartCount');
+            
+            const totalItems = orderItems.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                cartCounter.classList.remove('hidden');
+                cartCount.textContent = totalItems;
+            } else {
+                cartCounter.classList.add('hidden');
+            }
+        }
+
+        // Scroll to order section
+        function scrollToOrder() {
+            document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Submit order
+        function submitOrder() {
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('customerPhone').value;
+            const address = document.getElementById('customerAddress').value;
+            const notes = document.getElementById('orderNotes').value;
+            const deliveryTime = document.getElementById('deliveryTime').value;
+            
+            // Basic validation
+            if (!name || !phone || !address) {
+                alert('Please fill in all required fields (Name, Phone, Address)');
+                return;
+            }
+            
+            if (orderItems.length === 0) {
+                alert('Please add items to your order first');
+                return;
+            }
+            
+            // Create order message
+            let orderMessage = `🍽️ *New Order from LuxeSpoon*\n\n`;
+            orderMessage += `👤 *Customer Details:*\n`;
+            orderMessage += `Name: ${name}\n`;
+            orderMessage += `Phone: ${phone}\n`;
+            orderMessage += `Address: ${address}\n`;
+            orderMessage += `Delivery Time: ${deliveryTime}\n\n`;
+            
+            orderMessage += `🛍️ *Order Items:*\n`;
+            orderItems.forEach(item => {
+                orderMessage += `• ${item.name} × ${item.quantity} = ₹${(item.price * item.quantity).toFixed(2)}\n`;
+            });
+            
+            orderMessage += `\n💰 *Total Amount: ₹${orderTotal.toFixed(2)}*\n`;
+            
+            if (notes) {
+                orderMessage += `\n📝 *Special Instructions:*\n${notes}\n`;
+            }
+            
+            orderMessage += `\nThank you for choosing LuxeSpoon! 🙏`;
+            
+            // Send via WhatsApp
+            const whatsappURL = `https://wa.me/919876543210?text=${encodeURIComponent(orderMessage)}`;
+            window.open(whatsappURL, '_blank');
+            
+            // Clear order after sending
+            orderItems = [];
+            updateOrderSummary();
+            updateCartCounter();
+            
+            // Reset form
+            document.getElementById('orderForm').reset();
+            
+            // Show success message
+            alert('Order sent successfully! We will contact you shortly to confirm your order.');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-custom');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 25px rgba(0, 0, 0, 0.15)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial menu category
+            showCategory('starters');
+            
+            // Update cart counter
+            updateCartCounter();
+            
+            // Add animation to menu items on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all menu items
+            document.querySelectorAll('.menu-item, .review-card').forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = 'all 0.6s ease';
+                observer.observe(item);
+            });
+        });
+
+        // Prevent form submission on Enter key
+        document.getElementById('orderForm').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
